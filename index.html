@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Love Love</title>
+    <style>
+        /* CSS UNTUK TAMPILAN */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffeef8;
+            overflow: hidden; /* Supaya love gak bikin scrollbar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .page {
+            display: none; /* Sembunyikan semua page dulu */
+            flex-direction: column;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .active {
+            display: flex; /* Hanya tampilkan yang aktif */
+        }
+
+        h2 {
+            color: #d63384;
+            padding: 0 20px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #ff4d94;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* ANIMASI LOVE TERBANG */
+        .heart {
+            position: absolute;
+            color: #ff4d94;
+            font-size: 20px;
+            user-select: none;
+            animation: moveUp 4s linear forwards;
+            top: 100vh;
+        }
+
+        @keyframes moveUp {
+            to {
+                transform: translateY(-110vh) translateX(calc(-50px + 100px * var(--random-x)));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page1" class="page active">
+        <h2>Isi Lorem Ipsum Dulu (Page 1)</h2>
+        <button onclick="nextPage(2)">Next Page</button>
+    </div>
+
+    <div id="page2" class="page">
+        <h2>Lagi Lorem Ipsum Nih (Page 2)</h2>
+        <button onclick="nextPage(3)">Next Page</button>
+    </div>
+
+    <div id="page3" class="page">
+        <h2>Hampir Selesai Loremnya (Page 3)</h2>
+        <button onclick="nextPage(4)">Next Page</button>
+    </div>
+
+    <div id="page4" class="page">
+        <h2>Terima Kasih! (Page Terakhir)</h2>
+        </div>
+
+    <script>
+        // FUNGSI PINDAH HALAMAN
+        function nextPage(pageNumber) {
+            // Sembunyikan semua page
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // Tampilkan page yang dituju
+            document.getElementById('page' + pageNumber).classList.add('active');
+        }
+
+        // FUNGSI BUAT LOVE TERBANG
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.setProperty('--random-x', Math.random());
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            document.body.appendChild(heart);
+
+            // Hapus element heart setelah animasi selesai biar gak berat
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        // Jalankan love secara terus menerus
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
